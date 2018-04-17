@@ -1,16 +1,42 @@
-- name: Create instance(s)
+- name: Create instances for OpenShift on Google Cloud Platform
   hosts: all
   connection: local
   gather_facts: no
-
   tasks:
-
-  - name: Launch instances
+  - name: Launch Master instances
     gce:
-      name: lab
-      machine_type: n1-standard-1
-      num_instances: 4
+      name: master
+      machine_type: n1-standard-4
+      zone: southamerica-east1-a
+      num_instances: 3
       image: centos-7
+      tags:
+       - http-server
+       - https-server
       service_account_email: 394158307022-compute@developer.gserviceaccount.com
-      credentials_file: /root/OpenShift-4c27d543035e.json
+      credentials_file: OpenShift-4c27d543035e.json
+      project_id: openshift-198120
+  - name: Launch Infra instances
+    gce:
+      name: infra
+      machine_type: n1-standard-2
+      num_instances: 2
+      image: centos-7
+      tags:
+       - http-server
+       - https-server
+      service_account_email: 394158307022-compute@developer.gserviceaccount.com
+      credentials_file: OpenShift-4c27d543035e.json
+      project_id: openshift-198120
+  - name: Launch Worker instances
+    gce:
+      name: worker
+      machine_type: n1-standard-2
+      num_instances: 3
+      image: centos-7
+      tags:
+       - http-server
+       - https-server
+      service_account_email: 394158307022-compute@developer.gserviceaccount.com
+      credentials_file: OpenShift-4c27d543035e.json
       project_id: openshift-198120
