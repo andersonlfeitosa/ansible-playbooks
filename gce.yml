@@ -1,0 +1,16 @@
+- name: Create instance(s)
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+
+  - name: Launch instances
+    gce:
+      name: lab
+      machine_type: n1-standard-1
+      num_instances: 4
+      image: centos-7
+      service_account_email: 394158307022-compute@developer.gserviceaccount.com
+      credentials_file: /root/OpenShift-4c27d543035e.json
+      project_id: openshift-198120
